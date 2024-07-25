@@ -1,4 +1,4 @@
-name: Sonar
+name: Sonar cloud on PR
 on:
   pull_request:
     types: [opened, synchronize, reopened]

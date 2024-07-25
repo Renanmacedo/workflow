@@ -1,4 +1,4 @@
-name: Sonar merged
+name: Sonar cloud on merged PR
 on:
   pull_request:
     types: 
@@ -8,7 +8,8 @@ on:
   workflow_call:
 
 jobs:
-  sonar-scan-merged:
+  sonarcloud:
+    if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo
