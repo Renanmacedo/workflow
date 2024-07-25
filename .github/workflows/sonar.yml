@@ -13,8 +13,10 @@ jobs:
     steps:
       - name: Echo
         run: |
-          echo ${{ github.event.pull_request.merged }}
-          echo ${{ github.event_name }}
+          echo is merged ${{ github.event.pull_request.merged }}
+          echo event name ${{ github.event_name }}
+          echo event action ${{ github.event.action }}
+          echo github ref ${{ github.ref }}
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,7 +45,7 @@ jobs:
       - name: Run tests
         run: pnpm run test:ci
   sonarcloud-merged:
-    if: github.event_name == 'pushed' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Echo
