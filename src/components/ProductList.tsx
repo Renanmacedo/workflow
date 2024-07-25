@@ -8,6 +8,7 @@ const ProductList  = () => {
     return (
         <>
         <h1 className='po-text-2xl'>Lista de produtos</h1>
+        <p>Seus produtos completos:</p>
         <ul>
             { products.map(product => <li key={product.name}>{product.name} - {product.price}</li>  )}
         </ul>

@@ -1,8 +1,5 @@
 name: Sonar cloud on PR
 on:
-  push:
-    branchs:
-      - main
   pull_request:
     types: [opened, synchronize, reopened, closed]
 
