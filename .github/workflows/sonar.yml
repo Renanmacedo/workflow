@@ -1,11 +1,14 @@
 name: Sonar cloud on PR
 on:
+  push:
+    branchs:
+      - main
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened]
 
 jobs:
   sonarcloud-pull-request:
-    if: github.event_name == 'pull_request' && ${{ !github.event.pull_request.merged }}
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened')
     runs-on: ubuntu-latest
     steps:
       - name: Echo
@@ -40,14 +43,14 @@ jobs:
       - name: Run tests
         run: pnpm run test:ci
   sonarcloud-merged:
-    if: ${{ github.event.pull_request.merged }}
+    if: github.event_name == 'pushed' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Echo
         run: |
-          echo ${{ github.event.pull_request.merged }}
-          echo ${{ github.event_name }}
-          echo ${{ github.event.action }}
+          echo event name ${{ github.event_name }}
+          echo event action ${{ github.event.action }}
+          echo github ref ${{ github.ref }}
 
       - name: Checkout
         uses: actions/checkout@v3
