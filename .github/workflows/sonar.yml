@@ -43,7 +43,7 @@ jobs:
       - name: Run tests
         run: pnpm run test:ci
   sonarcloud-merged:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'pushed' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Echo
