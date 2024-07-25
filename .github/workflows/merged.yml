@@ -13,8 +13,9 @@ jobs:
     steps:
       - name: Echo
         run: |
-          echo ${{ github.event.pull_request }}
+          echo ${{ github.event.pull_request.merged }}
           echo ${{ github.event_name }}
+          echo ${{ github.event.action }}
 
       - name: Checkout
         uses: actions/checkout@v3
