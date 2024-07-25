@@ -1,10 +1,13 @@
 name: Sonar cloud on PR
 on:
+  push:
+    branchs:
+      - main
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, closed]
 
 jobs:
-  sonarcloud:
+  sonarcloud-pull-request:
     if: github.event_name == 'pull_request' && ${{ !github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
@@ -30,3 +33,31 @@ jobs:
 
       - name: Run tests
         run: pnpm run test:ci
+  sonarcloud-merged:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: |
+          echo ${{ github.event.pull_request.merged }}
+          echo ${{ github.event_name }}
+          echo ${{ github.event.action }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.0
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run tests
+        run: pnpm test
